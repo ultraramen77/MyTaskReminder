@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 // 2. POST ROUTE: Handles the form submission  (This part of the code is crucial as it captures the details of the new activity to be added, and then adds this new activity to the correct array based on the category selected by the user in the form.)
 app.post('/add-item', (req, res) => {           //app.post is to set up a route handler for POST requests to the /add-item URL.
     const newItem = req.body.itemName; // matches the 'name' attribute from HTML field input.
-    const category = req.body.category; // tells server which category the new activity belongs to, matching the 'name' attribute in EJS.
+    const priority = req.body.priority; // tells server which category the new activity belongs to, matching the 'name' attribute in EJS.
     const rating = req.body.itemRating; // Captures the rating of the new activity, matching the 'name' attribute in EJS.
 
     const activityObject = {        // create an object to store the new activity's name and rating together, making it easier to manage and display both pieces of information in the EJS template.
