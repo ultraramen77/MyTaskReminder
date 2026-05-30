@@ -47,22 +47,22 @@ app.post('/edit-item', (req, res) => {
 });
 
 // ROUTE 4: save the updated task.    (This is to help capture the updated details of the task to be edited, and then update the details of that specific task in the correct array based on the index captured from the form in edittask.ejs.)
-app.post('/update-item', (req, res) => {             //This route (update-item) is to capture the updated details of the task to be edited, and then update the details of that specific task in the correct array.
-    const index = req.body.itemIndex;                
+app.post('/update-item', (req, res) => {             
+    const index = req.body.itemIndex; // Locates the targeted array position to update               
     
     // Capture the newly edited data inputs from the edittask.ejs form fields
     const updatedName = req.body.itemName;             
     const updatedPriority = req.body.itemRating; // Captures priority select field (named itemRating in your edit file)
-    const updatedDate = req.body.taskdate;
+    const updatedDate = req.body.taskdate;         
 
-    // Replaces the old object properties at that specific index with the newly updated properties
+    // FIXED: Changed taskList to tasksList so it targets the correct master array
     tasksList[index] = { 
         name: updatedName, 
         priority: updatedPriority, 
         date: updatedDate 
     };
 
-    // Go back to the dashboard to show the changes instantly
+    // Go back to the dashboard homepage to display the modified changes instantly
     res.redirect('/');
 });
 
