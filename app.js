@@ -10,41 +10,33 @@ app.use(express.static('public'));
 // Setting EJS as the view engine
 app.set('view engine', 'ejs');   
 
-// The activity arrays
-let hobbiesList = [];           // Program creates 4 empty arrays/lists for storing hobbies sports, videogames, and movies
-let sportsList = [];
-let videogamesList = [];
-let moviesList = [];
+// The tasks arrays
+let tasksList = [];           
 
 // Define a route to render the main page
 app.get('/', (req, res) => {
-    res.render('tasklog', { hobbiesList, sportsList, videogamesList, moviesList});  //renders the EJS file and passes the arrays to it to be displayed on web page
+    res.render('tasklog', { tasksList });  //renders the EJS file and passes the array to it to be displayed on web page
 });
 
-// 2. POST ROUTE: Handles the form submission  (This part of the code is crucial as it captures the details of the new activity to be added, and then adds this new activity to the correct array based on the category selected by the user in the form.)
+// 2. POST ROUTE: Handles the form submission  
 app.post('/add-item', (req, res) => {           //app.post is to set up a route handler for POST requests to the /add-item URL.
     const newItem = req.body.itemName; // matches the 'name' attribute from HTML field input.
-    const priority = req.body.priority; // tells server which category the new activity belongs to, matching the 'name' attribute in EJS.
-    const rating = req.body.itemRating; // Captures the rating of the new activity, matching the 'name' attribute in EJS.
+    const priority = req.body.priority; // tells server what priority the new activity belongs to, matching the 'name' attribute in EJS.
+    const taskdate = req.body.taskdate; // Captures the date of the new task, matching the 'name' attribute in EJS.
 
-    const activityObject = {        // create an object to store the new activity's name and rating together, making it easier to manage and display both pieces of information in the EJS template.
+    const taskObject = {        // create an object to store the new task name, date, and priority together, making it easier to manage and display all 3 pieces of information in the EJS template.
         name: newItem,              // Uses key-value pairs to put multiple pieces of data together into 1 object.
-        rating: rating
+        priority: priority,
+        date: taskdate
     };
 
-    if (category === 'Hobbies') {                // if and elseif helps to match the selected category with correct list.
-        hobbiesList.push(activityObject);               // all these functions use push() to append the new activity to the end of the correct list in the category, and saves it is the memory.
-    } else if (category === 'Sports') {
-        sportsList.push(activityObject);
-    } else if (category === 'Videogames') {
-        videogamesList.push(activityObject);
-    } else if (category === 'Movies') {
-        moviesList.push(activityObject);
-    }
+    tasksList.push(taskObject);  // Add the new task to the tasksList array
 
     // After updating the list, go back to the home page to show the new item
     res.redirect('/');
-});
+    }
+
+);
 
 // ROUTE 3: getting the edit page with filled in details of activity to be updated. (Imprtant to capture the category and index of the activity to be edited, so that the server can identify which activity is being edited and then pass this information down to the editactivity.ejs page to fill the form with the current details of the activity for editing.)
 app.post('/edit-item', (req, res) => {
