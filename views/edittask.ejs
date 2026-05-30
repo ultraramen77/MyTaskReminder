@@ -12,7 +12,6 @@
     <div class="container mt-3">               <%# Create a container to hold the form for editing an activity. %>
         <h1><span style="color: aqua;">Edit Existing Task Details</span></h1>
         <form action="/update-item" method="POST">                       <%# Create a form to submit the updated activity details to the server and to update the activity list. %>
-            <input type="hidden" name="priority" value="<%= priority %>">    <%# name and value features here are important to identify the category of the activity to be updated and to help the server know which category to target (needed or will display error message) %>
             <input type="hidden" name="itemIndex" value="<%= index %>">  <%# name and value features here are important to identify the index of the activity to be updated in the array and to help the server know which activity to target for update (Needed or else activty won't update)%>
 
             <div class="mb-3 mt-3">
