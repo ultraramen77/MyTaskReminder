@@ -37,7 +37,7 @@
                                 
                                 <%# Renders the matching specific Priority Level indicator underneath %>
                                 <p class="card-text mb-1">Priority: 
-                                    <span class="badge" <%= tasksList[i].priority === 'IMPORTANT!' ? 'bg-danger' : 'bg-warning text-dark' %>">
+                                    <span class="badge <%= tasksList[i].priority === 'IMPORTANT!'>
                                         <%= tasksList[i].priority %>
                                     </span>
                                 </p>
