@@ -15,92 +15,64 @@
     <hr class="my-4">
     <h3 class="mb-3 text-dark fw-bold">Task Board:</h3>
         
-        <tr>
-            <th><span style="color: magenta;">Favourite Hobbies You Did</span></th>       <%#Create the table headers for each category of activities. %>
-            <th><span style="color: magenta;">Great Sports You Played</span></th>          
-            <th><span style="color: magenta;">Awesome Videogames You Played</span></th>
-            <th><span style="color: magenta;">Amazing Movies You've Watched</span></th>
-        </tr>
-        <tr>
-            <td>
-                <ol>
-                    <% for(let i = 0; i < hobbiesList.length ; i++) { %>      <%# Loop through the List array and display each activity in an ordered list. %>
-                        <li>
-                            <%= hobbiesList[i].name %> (<%= hobbiesList[i].rating %>)   <%# Displays the name and rating of each activity in the array, using the properties of the activityObject created in the POST route. %>
-                            <form action="/delete-item" method="POST">                   <%# [i] is to serve as an array index pointer to identify the index of the activity to be deleted in the array. %>
-                                <input type="hidden" name="category" value="Hobbies">    <%# name= feature here is important to identify the category of the activity to be deleted. Values are also important here to help the server know which category to target %>
-                                <input type="hidden" name="itemIndex" value="<%= i %>">    <%# name feature here is important to identify the index of the activity to be deleted in the array, and value is to help the server know which activity to target %>
-                                <button type="submit">Delete</button>
-                            </form>
-                            <form action="/edit-item" method="POST">                   <%# Create a form to submit the category and index of the activity to be edited to the server and to update the activity list. %>
-                                <input type="hidden" name="category" value="Hobbies">   <%# Same rules of the delete function name and value features apply here to help the server know which category to target for edit %>
-                                <input type="hidden" name="itemIndex" value="<%= i %>">
-                                <button type="submit">Edit</button>
-                            </form>
-                        </li>
-                    <% } %>
-                </ol>
-            </td>
-            <td>
-                <ol>
-                    <% for(let i = 0; i < sportsList.length ; i++) { %>
-                        <li>
-                            <%= sportsList[i].name %> (<%= sportsList[i].rating %>)   <%# () are to blend logic tags with HTML elements to display the name and rating of each activity in the array %>
-                            <form action="/delete-item" method="POST">
-                                <input type="hidden" name="category" value="Sports">
-                                <input type="hidden" name="itemIndex" value="<%= i %>">
-                                <button type="submit">Delete</button>
-                            </form>
-                            <form action="/edit-item" method="POST" >
-                                <input type="hidden" name="category" value="Sports"> 
-                                <input type="hidden" name="itemIndex" value="<%= i %>">
-                                <button type="submit">Edit</button>
-                            </form>
-                        </li>
-                    <% } %>
-                </ol>
-            </td>
-            <td>
-                <ol>
-                    <% for(let i = 0; i < videogamesList.length ; i++) { %>
-                        <li>
-                            <%= videogamesList[i].name %> (<%= videogamesList[i].rating %>)   
-                            <form action="/delete-item" method="POST">
-                                <input type="hidden" name="category" value="Videogames">
-                                <input type="hidden" name="itemIndex" value="<%= i %>">
-                                <button type="submit">Delete</button>
-                            </form>
-                            <form action="/edit-item" method="POST">
-                                <input type="hidden" name="category" value="Videogames"> 
-                                <input type="hidden" name="itemIndex" value="<%= i %>">
-                                <button type="submit">Edit</button>
-                            </form>
-                        </li>
-                    <% } %>
-                </ol>
-            </td>
-            <td>
-                <ol>
-                    <% for(let i = 0; i < moviesList.length ; i++) { %>
-                        <li>
-                            <%= moviesList[i].name %> (<%= moviesList[i].rating %>)   
-                            <form action="/delete-item" method="POST">
-                                <input type="hidden" name="category" value="Movies">
-                                <input type="hidden" name="itemIndex" value="<%= i %>">
-                                <button type="submit">Delete</button>
-                            </form>
-                            <form action="/edit-item" method="POST">
-                                <input type="hidden" name="category" value="Movies"> 
-                                <input type="hidden" name="itemIndex" value="<%= i %>">
-                                <button type="submit">Edit</button>
-                            </form>
-                        </li>
-                    <% } %>
-                </ol>
-            </td>
-        </tr>
+    <div class="row g-3">               <%# Create a container to hold the task board, where all the tasks added by the user will be displayed. %>
+        <% if (tasksList.length === 0) { %>
+                <div class="col-12">
+                    <div class="alert alert-info">No tasks registered yet. Click 'Add A Task' to add one!</div>
+                </div>
+            <% } %>
+        
+            <%# Dynamic Loop Strategy: Cycles through every object stored inside your tasksList array %>
+            <% for(let i = 0; i < tasksList.length ; i++) { %>      
+                
+                <%# Each task generates inside a structural column framework taking up 4 out of 12 slots (3 per line on desktops) %>
+                <div class="col-12 col-md-6 col-lg-4">
+                    
+                    <%# The UI Card Box Structure mapping your pencil blueprint layout design %>
+                    <div class="card h-100 shadow-sm border-dark">
+                        <div class="card-body d-flex flex-column justify-content-between bg-light">
+                            <div>
+                                <%# Displays the custom Task Name Title at the header section %>
+                                <h5 class="card-title text-primary fw-bold text-wrap"><%= tasksList[i].name %></h5>
+                                
+                                <%# Renders the matching specific Priority Level indicator underneath %>
+                                <p class="card-text mb-1">Priority: 
+                                    <span class="badge" <%= tasksList[i].priority === 'IMPORTANT!' ? 'bg-danger' : 'bg-warning text-dark' %>">
+                                        <%= tasksList[i].priority %>
+                                    </span>
+                                </p>
+                                
+                                <%# Maps out the target deadline timestamp exactly as sketched %>
+                                <p class="card-text text-muted small">Finish by: <%= tasksList[i].date %></p>
+                            </div>
+
+                            <%# Action Interactive Control Interface (Delete and Edit processing structures) %>
+                            <div class="mt-3 pt-2 border-top d-flex gap-2">
+                                
+                                <%# Form processing system targeting deletion routing configurations %>
+                                <form action="/delete-item" method="POST" class="m-0 flex-grow-1">
+                                    <%# Critical hidden index configuration field pointing directly to the current array item loop tracker %>
+                                    <input type="hidden" name="itemIndex" value="<%= i %>">
+                                    <button type="submit">Delete</button>
+                                </form>
+
+                                <%# Form processing layout configuration managing update redirection schemes %>
+                                <form action="/edit-item" method="POST" class="m-0 flex-grow-1">
+                                    <input type="hidden" name="itemIndex" value="<%= i %>">
+                                    <button type="submit">Edit</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            <% } %> <%# Close master processing loop %>
+
+        </div>
+    </div>
     <br>
-    <br>
+    <br>    
     
 </body>
 </html>
