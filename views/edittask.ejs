@@ -17,7 +17,7 @@
 
             <div class="mb-3 mt-3">
                 <label for="itemName"><span style="color: midnightblue;">Type out the new name of the task:</span></label>
-                <input type="text" class="form-control" id="itemName" placeholder="Enter new task name" name="itemName" required>   <%# class is used to apply Bootstrap styling to the input field %>
+                <input type="text" class="form-control" id="itemName" value="<%= task.name %>" placeholder="Enter new task name" name="itemName" required>   <%# class is used to apply Bootstrap styling to the input field %>
             </div>
 
             <div class="mb-3 mt-3">
