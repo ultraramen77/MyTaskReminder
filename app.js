@@ -38,12 +38,12 @@ app.post('/add-item', (req, res) => {           //app.post is to set up a route 
 
 );
 
-// ROUTE 3: getting the edit page with filled in details of activity to be updated. (Imprtant to capture the category and index of the activity to be edited, so that the server can identify which activity is being edited and then pass this information down to the editactivity.ejs page to fill the form with the current details of the activity for editing.)
+// ROUTE 3: getting the edit page with filled in details of the task to be updated. (Imprtant to capture the category and index of the task to be edited, so that the server can identify which task is being edited and then pass this information down to the edittask.ejs page to fill the form with the current details of the task for editing.)
 app.post('/edit-item', (req, res) => {
-    const category = req.body.category;
-    const index = req.body.itemIndex;            // const index function is to capture the index of the activity to be edited in the array.
-    // Render edittask.ejs, passing the activity category, and index down to the page which helps to identify the specific activity to be edited.
-    res.render('edittask', {  category: category, index: index });
+    const index = req.body.itemIndex;            // const index function is to capture the index of the task to be edited in the array.
+    const taskEdit = tasksList[index];          // This is to capture the specific task to be edited from the array using the index captured from the form in tasklog.ejs, so that its details can be passed down to the edit form in edittask.ejs to fill the form with the current details of the task for editing.
+    // Render edittask.ejs, passing the task date, and index down to the page which helps to identify the specific task to be edited.
+    res.render('edittask', {  index: index, task: taskEdit });  
 });
 
 // ROUTE 4: save the updated activity.    (This is to help capture the updated details of the activity to be edited, and then update the details of that specific activity in the correct array based on the category and index captured from the form in editactivity.ejs.)
