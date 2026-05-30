@@ -66,21 +66,11 @@ app.post('/update-item', (req, res) => {             //This route (update-item) 
     res.redirect('/');
 });
 
-// 5: POST ROUTE: Handles deleting an activity using its category and index       (This part of the code is crucial as it captures the category and index of the activity to be deleted, so that the server can identify which activity is being deleted and then remove that specific activity from the correct array based on the category and index captured.)
+// 5: POST ROUTE: Handles deleting a task using its index       (This part of the code is crucial as it captures the index of the task to be deleted, so that the server can identify which task is being deleted and then remove that specific task from the correct array based on the index captured.)
 app.post('/delete-item', (req, res) => {
-    const category = req.body.category;   // tells the server which category the activity to be deleted belongs to
-    const index = parseInt(req.body.itemIndex);  //tells the server where the activity is located in that particular array
-                                                 // itemIndex is to help identify the position of the activity in the array, so it can be removed with splice.
-                                                 // ParseInt is important as data sent from HTML forms is always in string format, and this helps to convert this to integer for accurate indexing in lists.
-    if (category === 'Hobbies') {
-        hobbiesList.splice(index, 1);            // splice is crucial: index helps to identify the position of the activity in the array, and 1 indicates that only one activity should be removed at that index.
-    } else if (category === 'Sports') {         //splice then removes that one specific activity in the array, and shifting any activities behind it forward to fill the gap above if there are activities below it.
-        sportsList.splice(index, 1);
-    } else if (category === 'Videogames') {      
-        videogamesList.splice(index, 1);
-    } else if (category === 'Movies') {
-        moviesList.splice(index, 1);
-    }
+    const index = parseInt(req.body.itemIndex);  //tells the server where the task is located in that particular array                                                 
+                                         // ParseInt is important as data sent from HTML forms is always in string format, and this helps to convert this to integer for accurate indexing in lists.
+    tasksList.splice(index, 1);            // splice is crucial: index helps to identify the position of the task in the array, and 1 indicates that only one task should be removed at that index.
 
     // Go back to the home page to show the updated list
     res.redirect('/');
@@ -91,9 +81,9 @@ app.get('/about', (req, res) => {           //(req, res) => is to set up the rou
     res.render('about');                   //res.render is used to render the about.ejs file when the user navigates to the /about URL, allowing users to learn more about the app and its purpose.
 });
 
-//Define a route to render the add activity page
-app.get('/addtask', (req, res) => {           //(req, res) => is to set up the route handler for GET requests to the /addactivity URL. When a user navigates to this URL, the server will execute the code inside this function.)
-    res.render('addtask');                   //res.render is used to render the addtask.ejs file when the user navigates to the /addactivity URL, allowing users to add new activities to their tracker.
+//Define a route to render the add task page
+app.get('/addtask', (req, res) => {           //(req, res) => is to set up the route handler for GET requests to the /addtask URL. When a user navigates to this URL, the server will execute the code inside this function.)
+    res.render('addtask');                   //res.render is used to render the addtask.ejs file when the user navigates to the /addtask URL, allowing users to add new tasks to their tracker.
 });
 
 // Start the server
