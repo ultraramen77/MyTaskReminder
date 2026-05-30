@@ -46,25 +46,21 @@ app.post('/edit-item', (req, res) => {
     res.render('edittask', {  index: index, task: taskEdit });  
 });
 
-// ROUTE 4: save the updated activity.    (This is to help capture the updated details of the activity to be edited, and then update the details of that specific activity in the correct array based on the category and index captured from the form in editactivity.ejs.)
-app.post('/update-item', (req, res) => {             //This route (update-item) is to capture the updated details of the activity to be edited, and then update the details of that specific activity in the correct array.
-    const category = req.body.category;        //category and index are important to identify the specific activity to be updated in the correct array, and then update the details of that activity in the array with the new details captured from the editing form.
+// ROUTE 4: save the updated task.    (This is to help capture the updated details of the task to be edited, and then update the details of that specific task in the correct array based on the index captured from the form in edittask.ejs.)
+app.post('/update-item', (req, res) => {             //This route (update-item) is to capture the updated details of the task to be edited, and then update the details of that specific task in the correct array.
     const index = req.body.itemIndex;                
     
-    // Capture the new edits entered by the user in the form
-    const updatedName = req.body.itemName;             // These new const functions are to capture the new details of the activity to be updated, and then use these details to replace the old details of the activity in the array.
-    const updatedRating = req.body.itemRating;         // req.body.itemName and Rating are to capture the new details entered by the user in the form, matching the 'name' attributes in the editactivity.ejs form.
+    // Capture the newly edited data inputs from the edittask.ejs form fields
+    const updatedName = req.body.itemName;             
+    const updatedPriority = req.body.itemRating; // Captures priority select field (named itemRating in your edit file)
+    const updatedDate = req.body.taskdate;
 
-    // Target the specific array element and replace its property details
-    if (category === 'Hobbies') {
-        hobbiesList[index] = { name: updatedName, rating: updatedRating };     // This is to replace the old details of the activity with the new details captured from the form, by targeting the specific index of the activity in the array and then updating its name and rating properties with the new details.
-    } else if (category === 'Sports') {
-        sportsList[index] = { name: updatedName, rating: updatedRating };        //list[index] is to target the specific activity to be updated in the array, and then replace its details with the new details captured from the form in editactivity.ejs.
-    } else if (category === 'Videogames') {
-        videogamesList[index] = { name: updatedName, rating: updatedRating };
-    } else if (category === 'Movies') {
-        moviesList[index] = { name: updatedName, rating: updatedRating };
-    }
+    // Replaces the old object properties at that specific index with the newly updated properties
+    tasksList[index] = { 
+        name: updatedName, 
+        priority: updatedPriority, 
+        date: updatedDate 
+    };
 
     // Go back to the dashboard to show the changes instantly
     res.redirect('/');
