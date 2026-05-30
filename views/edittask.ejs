@@ -11,7 +11,7 @@
     <%- include ('partials/navbar') %>         <%# To include the navigation bar in the edit activity page %>
     <div class="container mt-3">               <%# Create a container to hold the form for editing an activity. %>
         <h1><span style="color: aqua;">Edit Existing Task Details</span></h1>
-        <form action="/update-item" method="POST">                       <%# Create a form to submit the updated activity details to the server and to update the activity list. %>
+        <form action="/update-item" method="POST">        <%# Create a form to submit the updated task details to the server and to update the activity list. %>
             <input type="hidden" name="itemIndex" value="<%= index %>">  <%# name and value features here are important to identify the index of the activity to be updated in the array and to help the server know which activity to target for update (Needed or else activty won't update)%>
 
             <div class="mb-3 mt-3">
@@ -31,7 +31,7 @@
                 <br>
                 <span style="color: midnightblue;">Select the date to finish the task:</span>
                 <br>
-                <input type="date" name="taskdate" id="taskdate" required>
+                <input type="date" name="taskdate" id="taskdate" value="<%= task.date %>" required>
                 <br>
             </div>
 
